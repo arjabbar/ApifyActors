@@ -50,14 +50,14 @@ router.addHandler('product', async ({ request, page, log }) => {
 
     productDetailsString?.split('\n').forEach((line) => {
         const splitLine = line.split('\t');
-        details[splitLine[0]] = splitLine[1];
+        details[splitLine[0]?.trim()] = splitLine[1]?.trim();
     });
 
     const productDetailsString2 = await page.innerText('#detailBullets_feature_div');
 
     productDetailsString2?.split('\n').forEach((line) => {
         const splitLine = line.split(' : ');
-        details[splitLine[0].trim()] = splitLine[1].trim();
+        details[splitLine[0]?.trim()] = splitLine[1]?.trim();
     });
 
     const product = { title, imageSrc, details, url: request.loadedUrl };
