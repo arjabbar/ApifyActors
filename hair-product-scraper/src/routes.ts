@@ -42,16 +42,25 @@ router.addHandler('subcategory', async ({ request, page, log, enqueueLinks }) =>
 
 router.addHandler('product', async ({ request, page, log }) => {
     const title = (await page.innerText('#productTitle')).trim();
-    const productDetailsString = await page.innerText('[data-feature-name=productOverview]');
     const imageSrc = await page.getAttribute('[data-a-image-name=landingImage]', 'src');
+
     const details: any = {};
+
+    const productDetailsString = await page.innerText('[data-feature-name=productOverview]');
 
     productDetailsString?.split('\n').forEach((line) => {
         const splitLine = line.split('\t');
         details[splitLine[0]] = splitLine[1];
     });
 
-    const product = { title, imageSrc, details };
+    const productDetailsString2 = await page.innerText('#detailBullets_feature_div');
+
+    productDetailsString2?.split('\n').forEach((line) => {
+        const splitLine = line.split(' : ');
+        details[splitLine[0].trim()] = splitLine[1].trim();
+    });
+
+    const product = { title, imageSrc, details, url: request.loadedUrl };
 
     log.info('Storing product', product);
 
