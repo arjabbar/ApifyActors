@@ -3,9 +3,6 @@
 # You can also use any other image from Docker Hub.
 FROM apify/actor-node-playwright-chrome:16 AS builder
 
-RUN apk add --update python3 make g++\
-   && rm -rf /var/cache/apk/*
-
 # Copy just package.json and package-lock.json
 # to speed up the build using Docker layer cache.
 COPY --chown=myuser package*.json ./
