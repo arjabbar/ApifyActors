@@ -1,7 +1,5 @@
-import { Dataset, createPlaywrightRouter } from 'crawlee';
-
-const MAX_PAGES = Number.parseInt(process.env.MAX_PAGES!, 10) ?? 5;
-const MAX_ITEMS_PER_PAGE = Number.parseInt(process.env.MAX_ITEMS_PER_PAGE!, 10) ?? 5;
+import { Dataset, createPlaywrightRouter, Dictionary } from 'crawlee';
+import { Actor } from 'apify';
 
 export const router = createPlaywrightRouter();
 
@@ -13,6 +11,10 @@ router.addDefaultHandler(async ({ log, page, enqueueLinksByClickingElements }) =
 });
 
 router.addHandler('subcategory', async ({ request, page, log, enqueueLinks }) => {
+    const input = (await Actor.getInput()) as Dictionary;
+    const MAX_PAGES = input.maxPages ?? 5;
+    const MAX_ITEMS_PER_PAGE = input.maxItemsPerPage ?? 5;
+
     const title = await page.title();
     const pageNumber = request.userData.pageNumber ?? 1;
 

@@ -3,16 +3,25 @@
     "type": "object",
     "schemaVersion": 1,
     "properties": {
-        "startUrls": {
-            "title": "Start URLs",
-            "type": "array",
-            "description": "URLs to start with.",
-            "editor": "requestListSources",
-            "prefill": [
-                {
-                    "url": "https://apify.com"
-                }
-            ]
+        "useProxy": {
+            "title": "Use Proxy?",
+            "type": "boolean",
+            "description": "Whether or not to use the Apify proxy.",
+            "default": true
+        },
+        "maxPages": {
+            "title": "Max pages.",
+            "type": "integer",
+            "description": "The max number of pages to crawl per category.",
+            "default": 5,
+            "maximum": 100
+        },
+        "maxItemsPerPage": {
+            "title": "Max items per page.",
+            "type": "integer",
+            "description": "The max number of items to capture per category page.",
+            "default": 5,
+            "maximum": 100
         }
     }
 }
