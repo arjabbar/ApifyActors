@@ -25,7 +25,7 @@ FROM apify/actor-node-playwright-chrome:16
 # to speed up the build using Docker layer cache.
 COPY --chown=myuser package*.json ./
 
-RUN apk add --update python make g++\
+RUN apk add --update python3 make g++\
    && rm -rf /var/cache/apk/*
 
 # Install NPM packages, skip optional and development dependencies to
