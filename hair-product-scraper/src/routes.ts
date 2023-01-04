@@ -43,6 +43,10 @@ router.addHandler('subcategory', async ({ request, page, log, enqueueLinks }) =>
 router.addHandler('product', async ({ request, page, log }) => {
     const title = (await page.innerText('#productTitle')).trim();
     const imageSrc = await page.getAttribute('[data-a-image-name=landingImage]', 'src');
+    const images = [];
+    if (imageSrc) {
+        images.push(imageSrc);
+    }
 
     const details: any = {};
 

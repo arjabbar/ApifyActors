@@ -1,7 +1,9 @@
 {
 	"actorSpecification": 1,
-	"name": "hair-product-scraper",
+	"name": "amazon-hair-product-scraper",
 	"version": "0.0",
 	"buildTag": "latest",
-	"environmentVariables": {}
+	"environmentVariables": {
+        "USE_PROXY": "true"
+    }
 }
