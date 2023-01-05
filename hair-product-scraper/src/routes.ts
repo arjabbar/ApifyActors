@@ -80,7 +80,7 @@ function getDetailsFromMultilineString(detailsStr: string) {
 
         // Remove non-word characters from keys and values. ex. "Is Discontinued " => "IsDiscontinued"
         const detailName = splitLine[0].trim().replace(/\W/g, '');
-        const detailValue = splitLine[1].trim().replace(/\W/g, '');
+        const detailValue = splitLine[1].trim();
 
         if (!detailName || !detailValue) {
             return;
