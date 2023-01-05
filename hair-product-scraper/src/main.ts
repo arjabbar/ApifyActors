@@ -22,12 +22,12 @@ const proxyConfiguration = await Actor.createProxyConfiguration({
 const crawler = new PlaywrightCrawler({
     proxyConfiguration,
     requestHandler: router,
-    headless: false,
     postNavigationHooks: [
         async ({ page }) => {
             // debugger;
         },
     ],
+    maxConcurrency: 2,
 });
 
 await crawler.run(startUrls);

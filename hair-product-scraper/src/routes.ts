@@ -48,25 +48,46 @@ router.addHandler('product', async ({ request, page, log }) => {
         images.push(imageSrc);
     }
 
-    const details: any = {};
+    const productOverview = await page.innerText('[data-feature-name=productOverview]');
+    log.info(`Product Overview`, { productOverview });
 
-    const productDetailsString = await page.innerText('[data-feature-name=productOverview]');
+    const detailBullets = await page.innerText('#detailBullets_feature_div');
+    log.info(`Details Bullet`, { detailBullets });
 
-    productDetailsString?.split('\n').forEach((line) => {
-        const splitLine = line.split('\t');
-        details[splitLine[0]?.trim()] = splitLine[1]?.trim();
-    });
+    const details: any = {
+        ...getDetailsFromMultilineString(detailBullets),
+        ...getDetailsFromMultilineString(productOverview),
+    };
 
-    const productDetailsString2 = await page.innerText('#detailBullets_feature_div');
-
-    productDetailsString2?.split('\n').forEach((line) => {
-        const splitLine = line.split(' : ');
-        details[splitLine[0]?.trim()] = splitLine[1]?.trim();
-    });
-
-    const product = { title, imageSrc, details, url: request.loadedUrl };
+    const product = { title, images, details, url: request.loadedUrl };
 
     log.info('Storing product', product);
 
     await Dataset.pushData(product);
 });
+
+function getDetailsFromMultilineString(detailsStr: string) {
+    const parsedDetails = {} as any;
+    if (!detailsStr) {
+        return;
+    }
+    detailsStr.split('\n').forEach((line) => {
+        const splitLine = line.split(/\t|:/gi);
+        // If we parsed air, do nothing
+        if (!splitLine[0] || !splitLine[1]) {
+            return;
+        }
+
+        // Remove non-word characters from keys and values. ex. "Is Discontinued " => "IsDiscontinued"
+        const detailName = splitLine[0].trim().replace(/\W/g, '');
+        const detailValue = splitLine[1].trim().replace(/\W/g, '');
+
+        if (!detailName || !detailValue) {
+            return;
+        }
+
+        parsedDetails[detailName] = detailValue;
+    });
+
+    return parsedDetails;
+}
