@@ -27,7 +27,8 @@
             "title": "Dataset Name",
             "type": "string",
             "description": "The name of the dataset to store products in",
-            "default": "hairProducts"
+            "default": "hairProducts",
+            "editor": "textfield"
         },
         "callImageDownloader": {
             "title": "Call image downloader actor?",
@@ -39,7 +40,8 @@
             "title": "Details spliting regular expression",
             "type": "string",
             "description": "This regular expression will be used to separate the detail bullets for the product.",
-            "default": "\\t|(\\W*:\\W*)"
+            "default": "\\t|(\\W*:\\W*)",
+            "editor": "textfield"
         }
     }
 }
