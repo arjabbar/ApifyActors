@@ -22,6 +22,24 @@
             "description": "The max number of items to capture per category page.",
             "default": 5,
             "maximum": 100
+        },
+        "datasetName": {
+            "title": "Dataset Name",
+            "type": "string",
+            "description": "The name of the dataset to store products in",
+            "default": "hairProducts"
+        },
+        "callImageDownloader": {
+            "title": "Call image downloader actor?",
+            "type": "boolean",
+            "description": "Whether or not to use the Apify proxy.",
+            "default": true
+        },
+        "detailsSplitRegex": {
+            "title": "Details spliting regular expression",
+            "type": "string",
+            "description": "This regular expression will be used to separate the detail bullets for the product.",
+            "default": "\\t|(\\W*:\\W*)"
         }
     }
 }
