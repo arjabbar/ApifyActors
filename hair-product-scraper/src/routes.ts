@@ -61,10 +61,12 @@ router.addHandler('product', async ({ request, page, log }) => {
 
     const product = { title, images, details, url: request.loadedUrl };
 
-    log.info('Storing product', product);
-
     const input = await Actor.getInput<Dictionary>();
-    const dataset = await Dataset.open(input!.datasetName);
+    const { datasetName } = input!;
+    const dataset = await Dataset.open(datasetName);
+
+    log.info(`Storing product in dataset ${datasetName}`, product);
+
     await dataset.pushData(product);
 });
 
