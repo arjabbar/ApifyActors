@@ -48,13 +48,13 @@ if (input?.callImageDownloader) {
         fileNameFunction: '({url, md5}) => md5(url)',
         imageCheckType: 'content-type',
         noDownloadRun: false,
-        outputTo: 'no-output',
+        outputTo: 'dataset',
         pathToImageUrls: 'images',
         proxyConfiguration: {
             useApifyProxy: true,
         },
         s3CheckIfAlreadyThere: false,
-        uploadStoreName: 'productImages',
+        uploadStoreName: datasetInfo?.name,
         uploadTo: 'key-value-store',
     };
 
