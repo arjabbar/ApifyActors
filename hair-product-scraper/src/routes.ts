@@ -69,8 +69,8 @@ router.addHandler('product', async ({ request, page, log, saveSnapshot }) => {
 
         await dataset.pushData(product);
     } catch (error: any) {
-        log.error(error);
-        await saveSnapshot({ key: page.url(), saveHtml: true, saveScreenshot: true });
+        log.error('Failure parsing page.', { error, url: page.url() });
+        await saveSnapshot({ key: Buffer.from(page.url()).toString('base64'), saveHtml: true, saveScreenshot: true });
     }
 });
 
