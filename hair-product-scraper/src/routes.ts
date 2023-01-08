@@ -40,7 +40,7 @@ router.addHandler('subcategory', async ({ request, page, log, enqueueLinks }) =>
     });
 });
 
-router.addHandler('product', async ({ request, page, log }) => {
+router.addHandler('product', async ({ request, page, log, saveSnapshot }) => {
     const title = (await page.innerText('#productTitle')).trim();
     const imageSrc = await page.getAttribute('[data-a-image-name=landingImage]', 'src');
     const images = [];
@@ -48,26 +48,30 @@ router.addHandler('product', async ({ request, page, log }) => {
         images.push(imageSrc);
     }
 
-    const productOverview = await page.innerText('[data-feature-name=productOverview]');
-    log.info(`Product Overview`, { productOverview });
+    try {
+        const productOverview = await page.innerText('[data-feature-name=productOverview]');
+        log.info(`Product Overview`, { productOverview });
 
-    const detailBullets = await page.innerText('#detailBullets_feature_div');
-    log.info(`Details Bullet`, { detailBullets });
+        const detailBullets = await page.innerText('#detailBullets_feature_div');
+        log.info(`Details Bullet`, { detailBullets });
 
-    const details: any = {
-        ...(await getDetailsFromMultilineString(detailBullets)),
-        ...(await getDetailsFromMultilineString(productOverview)),
-    };
+        const details: any = {
+            ...(await getDetailsFromMultilineString(detailBullets)),
+            ...(await getDetailsFromMultilineString(productOverview)),
+        };
+        const product = { title, images, details, url: request.loadedUrl };
 
-    const product = { title, images, details, url: request.loadedUrl };
+        const input = await Actor.getInput<Dictionary>();
+        const { datasetName } = input!;
+        const dataset = await Dataset.open(datasetName);
 
-    const input = await Actor.getInput<Dictionary>();
-    const { datasetName } = input!;
-    const dataset = await Dataset.open(datasetName);
+        log.info(`Storing product in dataset ${datasetName}`, product);
 
-    log.info(`Storing product in dataset ${datasetName}`, product);
-
-    await dataset.pushData(product);
+        await dataset.pushData(product);
+    } catch (error: any) {
+        log.error(error);
+        await saveSnapshot({ key: page.url(), saveHtml: true, saveScreenshot: true });
+    }
 });
 
 async function getDetailsFromMultilineString(detailsStr: string) {

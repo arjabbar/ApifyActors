@@ -29,10 +29,6 @@ const crawler = new PlaywrightCrawler({
             // debugger;
         },
     ],
-    failedRequestHandler: (ctx, err) => {
-        ctx.log.error(err.message, { url: ctx.page.url(), error: err });
-        ctx.saveSnapshot({ saveHtml: true, saveScreenshot: true, key: ctx.page.url().replace(/[^a-z0-9]/gi, '_').toLowerCase() });
-    },
     maxConcurrency: 2,
 });
 
