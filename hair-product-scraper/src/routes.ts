@@ -1,5 +1,6 @@
 import { Dataset, createPlaywrightRouter, Dictionary } from 'crawlee';
 import { Actor } from 'apify';
+import { createHash } from "crypto";
 
 export const router = createPlaywrightRouter();
 
@@ -70,7 +71,8 @@ router.addHandler('product', async ({ request, page, log, saveSnapshot }) => {
         await dataset.pushData(product);
     } catch (error: any) {
         log.error('Failure parsing page.', { error, url: page.url() });
-        await saveSnapshot({ key: Buffer.from(page.url()).toString('base64'), saveHtml: true, saveScreenshot: true });
+        const urlHash = hashUrl(page.url());
+        await saveSnapshot({ key: urlHash, saveHtml: true, saveScreenshot: true });
     }
 });
 
@@ -101,4 +103,8 @@ async function getDetailsFromMultilineString(detailsStr: string) {
     });
 
     return parsedDetails;
+}
+
+function hashUrl(url: string): string {
+    return createHash('md5').update(url).digest('hex');
 }

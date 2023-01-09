@@ -50,7 +50,7 @@ if (input?.callImageDownloader) {
             useApifyProxy: true,
         },
         s3CheckIfAlreadyThere: false,
-        uploadStoreName: datasetInfo?.name,
+        uploadStoreName: 'productImages',
         uploadTo: 'key-value-store',
     };
 
