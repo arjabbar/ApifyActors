@@ -62,7 +62,7 @@ router.addHandler('product', async ({ request, page, log, saveSnapshot }) => {
         };
 
         const productCategory = await page.textContent('#wayfinding-breadcrumbs_container ul.a-unordered-list > li:last-child a');
-        const product = { title, images, details, url: request.loadedUrl, productCategory };
+        const product = { title, images, details, url: request.loadedUrl, productCategory: productCategory?.trim() };
 
         const input = await Actor.getInput<Dictionary>();
         const { datasetName } = input!;
