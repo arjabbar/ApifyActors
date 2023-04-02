@@ -7,7 +7,7 @@ export const router = createPlaywrightRouter();
 router.addDefaultHandler(async ({ log, page, enqueueLinksByClickingElements }) => {
     await enqueueLinksByClickingElements({
         selector: '[title=Shampoos]',
-        label: 'subcategory',
+        label: 'subcategory'
     });
 });
 
@@ -60,7 +60,9 @@ router.addHandler('product', async ({ request, page, log, saveSnapshot }) => {
             ...(await getDetailsFromMultilineString(detailBullets)),
             ...(await getDetailsFromMultilineString(productOverview)),
         };
-        const product = { title, images, details, url: request.loadedUrl };
+
+        const productCategory = await page.textContent('#wayfinding-breadcrumbs_container ul.a-unordered-list > li:last-child a');
+        const product = { title, images, details, url: request.loadedUrl, productCategory };
 
         const input = await Actor.getInput<Dictionary>();
         const { datasetName } = input!;
