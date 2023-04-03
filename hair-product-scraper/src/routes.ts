@@ -5,8 +5,15 @@ import { createHash } from "crypto";
 export const router = createPlaywrightRouter();
 
 router.addDefaultHandler(async ({ log, page, enqueueLinksByClickingElements }) => {
+    var categoryTitles = ['Shampoos', 'Conditioners', 'Gels', 'Creams & Lotions', 'Hair Sprays']
+    for (var category in categoryTitles) {
+        await enqueueLinksByClickingElements({
+            selector: `[title="${category}"]`,
+            label: 'subcategory'
+        });
+    }
     await enqueueLinksByClickingElements({
-        selector: '[title=Shampoos]',
+        selector: 'a:has(span:contains("Hair Treatment Oils"))',
         label: 'subcategory'
     });
 });
