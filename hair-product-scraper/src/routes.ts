@@ -6,9 +6,11 @@ export const router = createPlaywrightRouter();
 
 router.addDefaultHandler(async ({ log, page, enqueueLinksByClickingElements }) => {
     var categoryTitles = ['Shampoos', 'Conditioners', 'Gels', 'Creams & Lotions', 'Hair Sprays']
-    for (var category in categoryTitles) {
+    for (var category of categoryTitles) {
+        const selector = `[title="${category}"]`;
+        log.info("Enqueuing for link at selector", { selector });
         await enqueueLinksByClickingElements({
-            selector: `[title="${category}"]`,
+            selector,
             label: 'subcategory'
         });
     }
