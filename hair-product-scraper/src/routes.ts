@@ -12,10 +12,6 @@ router.addDefaultHandler(async ({ log, page, enqueueLinksByClickingElements }) =
             label: 'subcategory'
         });
     }
-    await enqueueLinksByClickingElements({
-        selector: 'a:has(span:contains("Hair Treatment Oils"))',
-        label: 'subcategory'
-    });
 });
 
 router.addHandler('subcategory', async ({ request, page, log, enqueueLinks }) => {
