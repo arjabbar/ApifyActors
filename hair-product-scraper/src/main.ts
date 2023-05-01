@@ -33,7 +33,8 @@ const crawler = new PlaywrightCrawler({
 });
 
 if (input?.singleProductUrl) {
-    await crawler.run([input.singleProductUrl, {
+    await crawler.run([{
+        url: input.singleProductUrl,
         label: 'product',
     }]);
 } else {
