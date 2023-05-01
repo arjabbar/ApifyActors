@@ -48,10 +48,7 @@
             "type": "string",
             "description": "The URL of a single product page. This will parse a single product and send it to the web app.",
             "default": null,
-            "editor": "textfield",
-            "examples": [
-                "https://www.sallybeauty.com/hair/hair-care/conditioner/leave-in-conditioner/leave-in-conditioner/SBS-302210.html"
-            ]
+            "editor": "textfield"
         }
     }
 }
