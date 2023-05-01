@@ -32,7 +32,13 @@ const crawler = new PlaywrightCrawler({
     maxConcurrency: 2,
 });
 
-await crawler.run(startUrls);
+if (input?.singleProductUrl) {
+    await crawler.run([input.singleProductUrl, {
+        label: 'product',
+    }]);
+} else {
+    await crawler.run(startUrls);
+}
 
 const dataset = await Dataset.open(input!.datasetName);
 const datasetInfo = await dataset.getInfo();
